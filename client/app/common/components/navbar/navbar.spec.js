@@ -25,10 +25,6 @@ describe('Navbar', () => {
         $scope: $rootScope.$new()
       });
     });
-
-    it('has a name property', () => { // erase if removing this.name from the controller
-      expect(controller).to.have.property('name');
-    });
   });
 
   describe('View', () => {
@@ -41,8 +37,11 @@ describe('Navbar', () => {
       scope.$apply();
     });
 
-    it('has name in template', () => {
-      expect(template.find('h1').find('a').html()).to.eq('navbar');
+    it('should have three links', () => {
+      let templateAsHtml = template.html();
+      expect(templateAsHtml).to.match(/ui-sref="home"/g);
+      expect(templateAsHtml).to.match(/ui-sref="about"/g);
+      expect(templateAsHtml).to.match(/ui-sref="agents"/g);
     });
 
   });

@@ -1,0 +1,47 @@
+$primaryColor:        #0277bd;
+$accentColor:         #1de9b6;
+$bgColor:             #efefef;
+$darkBgColor:         #263238;
+$lightBgColor:        #37474f;
+$lightTextColor:      #f5f5f5;
+$darkTextColor:       #212121;
+$darkTextColorHover:  lighten($darkTextColor, 30%);;
+
+$navbar1: #FBFBFB;
+$navbar2: #F5F5F5;
+
+$xsmall:  480px;
+$small:   960px;
+$medium:  1280px;
+$large:   1440px;
+
+@mixin screen-xsmall {
+  @media (min-width: 0px) and (max-width: $xsmall) {
+    @content;
+  }
+}
+@mixin screen-gt-xsmall {
+  @media (min-width: $xsmall+1px) {
+    @content;
+  }
+}
+@mixin screen-small {
+  @media (min-width: ($xsmall + 1px)) and (max-width: $small) {
+    @content;
+  }
+}
+@mixin screen-gt-small {
+  @media (min-width: $small + 1px) {
+    @content;
+  }
+}
+@mixin screen-medium {
+  @media (min-width: $small + 1px) and (max-width: $medium) {
+    @content;
+  }
+}
+@mixin screen-gt-medium {
+  @media (min-width: $medium + 1px) {
+    @content;
+  }
+}

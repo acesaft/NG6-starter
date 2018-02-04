@@ -1,0 +1,54 @@
+@import '../../styles/variables';
+
+// general styles
+.navbar {
+  .navbar-links{
+    display: flex;
+
+    .link{
+      color: $darkTextColor;
+      font-size: 1rem;
+      padding: 1rem 2rem;
+      cursor: pointer;
+
+      &:hover{
+        color: $darkTextColorHover;
+      }
+    }
+  }
+}
+
+// Repsonsive styles
+@include screen-gt-xsmall{
+  .navbar {
+    background: linear-gradient(to bottom, $navbar1 0%,$navbar1 50%,#000000 50%,$navbar2 50%,$navbar2 100%);
+
+    .navbar-links{
+      flex-direction: row;
+
+      .link{
+        border-right: 1px solid grey;
+        &:last-child{
+          border-right: none;
+        }
+      }
+    }
+  }
+}
+
+@include screen-xsmall{
+  .navbar {
+    background: white;
+
+    .navbar-links{
+      flex-direction: column;
+    }
+
+    .link{
+      text-align: center;
+      border-right: none;
+      border-bottom: 1px solid grey;
+    }
+
+  }
+}

@@ -1,0 +1,6 @@
+<div class="agents-list">
+  <div ng-if="$ctrl.loading" class="loading"></div>
+  <div ng-if="!$ctrl.loading" class="list-container">
+    <agents-list-item ng-repeat="agent in $ctrl.list" agent="agent"></agents-list-item>
+  </div>
+</div>

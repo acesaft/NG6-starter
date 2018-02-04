@@ -1,0 +1,32 @@
+@import '../../common/styles/variables';
+
+.agent-list-item {
+  display: flex;
+  margin: 16px;
+  width: 268px;
+  flex: 1 0 33%;
+  box-sizing: border-box;
+
+  .avatar{
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    margin-right: 16px;
+    img{
+      border-radius: 50%;
+      width: 100%;
+    }
+  }
+  .agent-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .agent-name{
+      font-size: 1.2rem;
+    }
+    .agent-agency{
+      font-size: 0.7rem;
+      color: $darkTextColor
+    }
+  }
+}

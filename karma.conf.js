@@ -5,7 +5,7 @@ module.exports = function (config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai'],
+    frameworks: ['mocha', 'chai', 'sinon'],
 
     // list of files/patterns to load in the browser
     files: [{ pattern: 'spec.bundle.js', watched: false }],
@@ -19,7 +19,8 @@ module.exports = function (config) {
       require("karma-mocha"),
       require("karma-mocha-reporter"),
       require("karma-sourcemap-loader"),
-      require("karma-webpack")
+      require("karma-webpack"),
+      require("karma-sinon")
     ],
 
     // preprocess matching files before serving them to the browser
@@ -30,10 +31,16 @@ module.exports = function (config) {
       devtool: 'inline-source-map',
       module: {
         loaders: [
-          { test: /\.js/, exclude: [/app\/lib/, /node_modules/], loader: 'babel' },
-          { test: /\.html$/, loader: 'raw' },
-          { test: /\.(scss|sass)$/, loader: 'style!css!sass' },
-          { test: /\.css$/, loader: 'style!css' }
+          { test: /\.js$/, exclude: [/app\/lib/, /node_modules/], loader: 'ng-annotate-loader!babel-loader' },
+          { test: /\.html$/, loader: 'raw-loader' },
+          { test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=8192'},
+          {
+            test   : /\.css$/,
+            loaders: ['style-loader', 'css-loader', 'resolve-url-loader']
+          }, {
+            test   : /\.(scss|sass)$/,
+            loaders: ['style-loader', 'css-loader', 'sass-loader','resolve-url-loader', 'sass-loader?sourceMap']
+          }
         ]
       }
     },

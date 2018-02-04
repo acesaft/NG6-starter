@@ -4,14 +4,36 @@ import AgentsComponent from './agents.component';
 import AgentsTemplate from './agents.html';
 
 describe('Agents', () => {
-  let $rootScope, makeController;
+  let $rootScope, makeController, $q, controller;
+  let agentServiceMock, getAgentsResolve, getAgentsReject, mockPromise;
 
   beforeEach(window.module(AgentsModule));
-  beforeEach(inject((_$rootScope_) => {
+    beforeEach(inject((_$rootScope_, _$q_) => {
     $rootScope = _$rootScope_;
-    makeController = () => {
-      return new AgentsController();
+    $q = _$q_;
+
+    mockPromise = {
+      then: (callback) => {
+        getAgentsResolve = callback;
+        return mockPromise;
+      },
+      catch: (callback) => {
+        getAgentsReject = callback;
+        return mockPromise;
+      }
     };
+
+    agentServiceMock = {
+      getAgents: () => {
+        return mockPromise;
+      }
+    };
+    sinon.spy(agentServiceMock, 'getAgents');
+
+    makeController = () => {
+      return new AgentsController(agentServiceMock);
+    };
+
   }));
 
   describe('Module', () => {
@@ -19,18 +41,83 @@ describe('Agents', () => {
   });
 
   describe('Controller', () => {
-    // controller specs
-    it('has a name property [REMOVE]', () => { // erase if removing this.name from the controller
-      let controller = makeController();
-      expect(controller).to.have.property('name');
+
+    let controller;
+
+    beforeEach(() => {
+      controller = makeController();
     });
+    // controller specs
+
+    describe('init', () => {
+      it('should set initial values', () => {
+        expect(controller.searchInput).to.eq('');
+        expect(controller.loading).to.eq(false);
+      });
+    });
+
+    describe('agentSearch()', () => {
+      it('should set loading to true when calling agentSearch function', () => {
+        controller.searchInput = 'test';
+        controller.searchAgent();
+        expect(controller.loading).to.eq(true);
+      });
+
+      it('should set loading to true when calling agentSearch function and to false on successful result', () => {
+        controller.searchInput = 'test';
+        controller.searchAgent();
+        expect(controller.loading).to.eq(true);
+        getAgentsResolve({
+          data:{
+            Results: ['a', 'b', 'c']
+          }
+        });
+        expect(controller.loading).to.eq(false);
+      });
+
+      it('should set loading to true when calling agentSearch function and to false on unsuccessful result', () => {
+        controller.searchInput = 'test';
+        controller.searchAgent();
+        expect(controller.loading).to.eq(true);
+        getAgentsReject('error');
+        expect(controller.loading).to.eq(false);
+      });
+
+      it('should call the agentSearchService with searchInput', () => {
+        let searchInput = 'test';
+        controller.searchInput = searchInput;
+        controller.searchAgent();
+        assert(agentServiceMock.getAgents.calledWith(searchInput))
+      });
+
+      it('should set agentsList on successfull result', () => {
+        controller.searchAgent();
+        getAgentsResolve({
+          data:{
+            Results: ['a', 'b', 'c']
+          }
+        });
+
+        expect(controller.agentsList).to.eql(['a', 'b', 'c'])
+      });
+
+      it('should set error on unsuccessful result', () => {
+        controller.searchAgent();
+        getAgentsReject('error');
+
+        expect(controller.error).to.eql('error');
+      });
+    })
   });
 
   describe('Template', () => {
     // template specs
     // tip: use regex to ensure correct bindings are used e.g., {{  }}
-    it('has name in template [REMOVE]', () => {
-      expect(AgentsTemplate).to.match(/{{\s?\$ctrl\.name\s?}}/g);
+    it('should call agentSearch function on form submission', () => {
+      expect(AgentsTemplate).to.match(/ng-submit="\$ctrl\.searchAgent\(\)"/g);
+    });
+    it('input element should have searchInput bound as model', () => {
+      expect(AgentsTemplate).to.match(/ng-model="\$ctrl\.searchInput"/g);
     });
   });
 

@@ -1,6 +1,12 @@
 @import '../../common/styles/variables';
 
 .agents {
+  .error{
+    padding-top: 16px;
+    background: white;
+    text-align: center;
+    font-size: 1rem;
+  }
   .search-container{
     height: 180px;
     background: url("../../assets/agent_bg.png") no-repeat center;

@@ -1,3 +1,66 @@
+@import '../../common/styles/variables';
+
 .agents {
-  color: red;
+  .search-container{
+    height: 180px;
+    background: url("../../assets/agent_bg.png") no-repeat center;
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .agent-search-form{
+      display: flex;
+
+      .agent-search-input{
+        width: 75%;
+        padding: 0.5rem 0 0.5rem 1rem;
+        height: 2rem;
+        line-height: 2rem;
+        font-size: 1rem;
+        border: 1px solid;
+        border-color: lightgray grey lightgray lightgray;
+      }
+
+      button{
+        background: linear-gradient(to bottom, $navbar1 0%,$navbar1 50%,#000000 50%,$navbar2 50%,$navbar2 100%);
+        padding: 0 2.5rem;
+        color: $darkTextColor;
+        font-size: 1rem;
+        text-transform: uppercase;
+        border: 1px solid lightgray;
+        border-left: none;
+        font-weight: bold;
+
+        &:hover{
+          color: $darkTextColorHover;
+        }
+      }
+    }
+  }
+}
+
+@include screen-gt-small{
+  .agents {
+    .agent-search-form {
+      width: 50%;
+    }
+  }
+}
+
+@include screen-small{
+  .agents {
+    .agent-search-form {
+      width: 70%;
+    }
+  }
+}
+
+@include screen-xsmall{
+  .agents {
+    .agent-search-form {
+      width: 85%;
+    }
+  }
 }

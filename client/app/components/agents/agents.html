@@ -1,3 +1,10 @@
-<div>
-  <h1>{{ $ctrl.name }}</h1>
-</div>
+<section class="agents">
+
+  <div class="search-container">
+    <form name="agent-search-form" class="agent-search-form" ng-submit="$ctrl.searchAgent()">
+      <input type="text" class="agent-search-input" ng-model="$ctrl.searchInput">
+      <button class="button">Search</button>
+    </form>
+  </div>
+
+</section>
